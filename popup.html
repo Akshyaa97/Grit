@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Grit</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <div class="wrap" data-testid="popup-root">
+
+      <header class="hd">
+        <div class="badge" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none"
+               stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round">
+            <rect x="6" y="5" width="4" height="14" rx="1"></rect>
+            <rect x="14" y="5" width="4" height="14" rx="1"></rect>
+          </svg>
+        </div>
+        <div>
+          <h1 data-testid="popup-title">Grit</h1>
+          <p class="lede">Pause before you act.</p>
+        </div>
+      </header>
+
+      <!-- Stats summary -->
+      <section class="stats" data-testid="popup-stats">
+        <div class="stat">
+          <span class="stat-num" id="s-pp" data-testid="stat-purchases">0</span>
+          <span class="stat-lbl">Purchases<br/>paused</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num" id="s-si" data-testid="stat-scrolls">0</span>
+          <span class="stat-lbl">Scrolls<br/>interrupted</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num" id="s-sd" data-testid="stat-emails">0</span>
+          <span class="stat-lbl">Emails<br/>delayed</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num" id="s-dp" data-testid="stat-patterns">0</span>
+          <span class="stat-lbl">Patterns<br/>flagged</span>
+        </div>
+      </section>
+
+      <button type="button" class="dash-btn"
+              id="open-dashboard"
+              data-testid="open-dashboard-btn">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none"
+             stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round"
+             aria-hidden="true">
+          <path d="M3 12h7v9H3z"/><path d="M14 3h7v6h-7z"/>
+          <path d="M14 13h7v8h-7z"/><path d="M3 3h7v6H3z"/>
+        </svg>
+        Open Dashboard
+      </button>
+
+      <!-- Settings -->
+      <section class="settings" data-testid="popup-settings">
+        <h2>Features</h2>
+
+        <label class="row">
+          <span class="row-label">
+            <span class="row-title">Purchase Pause</span>
+            <span class="row-sub">10s pause on Buy / Checkout</span>
+          </span>
+          <input type="checkbox" class="row-toggle"
+                 data-key="purchase_pause"
+                 data-testid="toggle-purchase-pause">
+          <span class="row-switch" aria-hidden="true"></span>
+        </label>
+
+        <label class="row">
+          <span class="row-label">
+            <span class="row-title">Scroll Interrupt</span>
+            <span class="row-sub">Reddit, X, IG, TikTok, YT Shorts</span>
+          </span>
+          <input type="checkbox" class="row-toggle"
+                 data-key="scroll_interrupt"
+                 data-testid="toggle-scroll-interrupt">
+          <span class="row-switch" aria-hidden="true"></span>
+        </label>
+
+        <label class="row">
+          <span class="row-label">
+            <span class="row-title">Send Delay</span>
+            <span class="row-sub">30s pause in Gmail compose</span>
+          </span>
+          <input type="checkbox" class="row-toggle"
+                 data-key="send_delay"
+                 data-testid="toggle-send-delay">
+          <span class="row-switch" aria-hidden="true"></span>
+        </label>
+
+        <label class="row">
+          <span class="row-label">
+            <span class="row-title">Dark Pattern Detector</span>
+            <span class="row-sub">Outline shady checkboxes & timers</span>
+          </span>
+          <input type="checkbox" class="row-toggle"
+                 data-key="dark_pattern"
+                 data-testid="toggle-dark-pattern">
+          <span class="row-switch" aria-hidden="true"></span>
+        </label>
+
+        <label class="row">
+          <span class="row-label">
+            <span class="row-title">Weekly Mirror</span>
+            <span class="row-sub">Track stats for the dashboard</span>
+          </span>
+          <input type="checkbox" class="row-toggle"
+                 data-key="weekly_mirror"
+                 data-testid="toggle-weekly-mirror">
+          <span class="row-switch" aria-hidden="true"></span>
+        </label>
+      </section>
+
+      <p class="foot">v0.2 · settings sync across devices</p>
+    </div>
+    <script src="popup.js"></script>
+  </body>
+</html>

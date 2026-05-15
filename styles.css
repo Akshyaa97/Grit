@@ -1,0 +1,246 @@
+/* Grit — modal + small-card styles
+   All classes are prefixed with `friction-` so they don't clash
+   with the host page. The overlays use the highest sane z-index. */
+
+#friction-overlay,
+#friction-time,
+#friction-send {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  animation: friction-fade 180ms ease-out;
+}
+
+@keyframes friction-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+#friction-overlay .friction-card,
+#friction-time    .friction-card,
+#friction-send    .friction-card {
+  background: #ffffff;
+  color: #0f172a;
+  width: min(92vw, 440px);
+  border-radius: 20px;
+  padding: 32px 28px 24px;
+  box-shadow: 0 25px 60px rgba(15, 23, 42, 0.25);
+  text-align: center;
+  animation: friction-pop 220ms cubic-bezier(0.2, 0.9, 0.3, 1.2);
+  box-sizing: border-box;
+}
+
+@keyframes friction-pop {
+  from { transform: translateY(8px) scale(0.96); opacity: 0; }
+  to   { transform: translateY(0)   scale(1);    opacity: 1; }
+}
+
+#friction-overlay .friction-icon,
+#friction-time    .friction-icon,
+#friction-send    .friction-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  background: #eff6ff;
+  color: #3b82f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.friction-title {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 0 0 8px;
+  color: #0f172a;
+  letter-spacing: -0.01em;
+}
+
+.friction-sub {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #475569;
+  margin: 0 0 20px;
+}
+.friction-sub-soft {
+  color: #64748b;
+  margin-top: -8px;
+}
+
+#friction-overlay .friction-timer,
+#friction-send    .friction-timer {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 0 24px;
+  padding: 16px;
+  background: #f8fafc;
+  border-radius: 14px;
+}
+
+#friction-overlay .friction-timer #friction-count,
+#friction-send    .friction-timer #friction-send-count {
+  font-size: 44px;
+  font-weight: 700;
+  color: #3b82f6;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.friction-timer-label {
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.friction-actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.friction-btn {
+  flex: 1;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background-color 150ms ease, color 150ms ease,
+    transform 120ms ease, box-shadow 150ms ease;
+  line-height: 1.2;
+}
+.friction-btn-cancel {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+.friction-btn-cancel:hover { background: #e2e8f0; }
+.friction-btn-cancel:active { transform: translateY(1px); }
+
+.friction-btn-buy {
+  background: #3b82f6;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+}
+.friction-btn-buy:hover:not(:disabled) { background: #2563eb; }
+.friction-btn-buy:active:not(:disabled) { transform: translateY(1px); }
+.friction-btn-buy:disabled {
+  background: #cbd5e1;
+  color: #ffffff;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.friction-foot {
+  font-size: 11px;
+  color: #94a3b8;
+  margin: 0;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Send-delay warning banner */
+.friction-warn {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: left;
+  padding: 12px 14px;
+  margin: 0 0 18px;
+  border-radius: 12px;
+  background: #fff7ed;
+  color: #9a3412;
+  font-size: 13px;
+  line-height: 1.4;
+  border: 1px solid #fed7aa;
+}
+.friction-warn strong { color: #7c2d12; font-weight: 600; }
+
+/* ------------------------------------------------------------
+   Intent prompt — small bottom-right card (Scroll Interrupt)
+   ------------------------------------------------------------ */
+#friction-intent {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 2147483647;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  animation: friction-slide 240ms cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+
+@keyframes friction-slide {
+  from { transform: translateY(12px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+#friction-intent .friction-intent-card {
+  background: #ffffff;
+  color: #0f172a;
+  width: 300px;
+  padding: 18px 18px 16px;
+  border-radius: 16px;
+  box-shadow: 0 10px 36px rgba(15, 23, 42, 0.18);
+  border: 1px solid #e2e8f0;
+}
+#friction-intent .friction-intent-q {
+  margin: 0 0 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0f172a;
+}
+#friction-intent input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 9px 12px;
+  font-size: 13px;
+  font-family: inherit;
+  color: #0f172a;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 150ms;
+}
+#friction-intent input::placeholder { color: #94a3b8; }
+#friction-intent input:focus { border-color: #3b82f6; background: #ffffff; }
+
+#friction-intent .friction-intent-row {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+.friction-btn-mini {
+  padding: 7px 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 150ms;
+}
+.friction-btn-mini-ghost {
+  background: transparent;
+  color: #64748b;
+}
+.friction-btn-mini-ghost:hover { background: #f1f5f9; color: #0f172a; }
+
+.friction-btn-mini-primary {
+  background: #3b82f6;
+  color: #ffffff;
+}
+.friction-btn-mini-primary:hover { background: #2563eb; }

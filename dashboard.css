@@ -1,0 +1,211 @@
+/* Grit — dashboard (Weekly Mirror) */
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  background:
+    radial-gradient(circle at 15% 0%,  #dbeafe 0%, transparent 45%),
+    radial-gradient(circle at 85% 100%, #eff6ff 0%, transparent 50%),
+    #f8fafc;
+  color: #0f172a;
+  min-height: 100vh;
+}
+
+.page {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 48px 32px 64px;
+}
+
+/* Header */
+.hd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+.hd-left {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+.badge {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #eff6ff;
+  color: #3b82f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hd h1 {
+  margin: 0 0 2px;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.hd .sub {
+  margin: 0;
+  font-size: 13.5px;
+  color: #64748b;
+}
+
+.reset-btn {
+  background: transparent;
+  border: 1px solid #e2e8f0;
+  color: #64748b;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 150ms, color 150ms, border-color 150ms;
+}
+.reset-btn:hover {
+  background: #fef2f2;
+  color: #b91c1c;
+  border-color: #fecaca;
+}
+
+/* Cards grid */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 36px;
+}
+@media (max-width: 720px) {
+  .cards { grid-template-columns: repeat(2, 1fr); }
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 20px 18px 18px;
+  box-shadow: 0 1px 0 rgba(15, 23, 42, 0.04),
+    0 8px 28px rgba(15, 23, 42, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.card-emoji {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: #eff6ff;
+  color: #3b82f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+.card h2 {
+  font-size: 12.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #94a3b8;
+  margin: 0;
+}
+.card .big {
+  font-size: 36px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 4px 0 0;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+.card .hint {
+  font-size: 12px;
+  color: #94a3b8;
+  margin: 6px 0 0;
+}
+
+/* Chart */
+.chart {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 24px 26px;
+  box-shadow: 0 1px 0 rgba(15, 23, 42, 0.04),
+    0 8px 28px rgba(15, 23, 42, 0.06);
+  margin-bottom: 24px;
+}
+.chart h2 {
+  font-size: 12.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #94a3b8;
+  margin: 0 0 18px;
+}
+.bar-row {
+  display: grid;
+  grid-template-columns: 180px 1fr 60px;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+.bar-row:last-child { margin-bottom: 0; }
+.bar-lbl {
+  font-size: 13px;
+  color: #475569;
+  font-weight: 500;
+}
+.bar-track {
+  background: #f1f5f9;
+  border-radius: 999px;
+  height: 12px;
+  overflow: hidden;
+}
+.bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #60a5fa);
+  border-radius: 999px;
+  transition: width 600ms cubic-bezier(0.2, 0.9, 0.3, 1);
+  min-width: 4px;
+}
+.bar-num {
+  font-size: 14px;
+  font-weight: 600;
+  color: #0f172a;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 720px) {
+  .bar-row {
+    grid-template-columns: 1fr 50px;
+    grid-template-areas:
+      "lbl num"
+      "trk trk";
+    gap: 6px 10px;
+  }
+  .bar-lbl { grid-area: lbl; }
+  .bar-num { grid-area: num; }
+  .bar-track { grid-area: trk; }
+}
+
+/* Footer */
+.ftr {
+  text-align: center;
+}
+.ftr p {
+  font-size: 11.5px;
+  color: #94a3b8;
+  margin: 0;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 600px) {
+  .page { padding: 28px 18px 40px; }
+  .hd { flex-direction: column; align-items: flex-start; }
+  .hd h1 { font-size: 20px; }
+}

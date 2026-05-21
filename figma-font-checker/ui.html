@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 16px;
+      background-color: #ffffff;
+      color: #333;
+    }
+    h2 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .refresh-btn {
+      background: none;
+      border: 1px solid #e0e0e0;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .refresh-btn:hover {
+      background-color: #f5f5f5;
+    }
+    .refresh-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .font-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .font-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .font-info {
+      flex: 1;
+    }
+    .font-family {
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .font-style {
+      font-size: 10px;
+      color: #888;
+    }
+    .font-status {
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 10px;
+      margin-left: 8px;
+    }
+    .status-missing {
+      background-color: #fff1f0;
+      color: #ff4d4f;
+      border: 1px solid #ffa39e;
+    }
+    .status-ok {
+      background-color: #f6ffed;
+      color: #52c41a;
+      border: 1px solid #b7eb8f;
+    }
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #888;
+    }
+    .error-card {
+      background-color: #fff2f0;
+      border: 1px solid #ffccc7;
+      padding: 12px;
+      border-radius: 6px;
+      margin-bottom: 16px;
+    }
+    .error-title {
+      color: #ff4d4f;
+      font-weight: 600;
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+    .error-msg {
+      font-size: 11px;
+      color: #cf1322;
+    }
+  </style>
+</head>
+<body>
+  <h2>
+    Fonts in use
+    <button class="refresh-btn" id="refresh">Refresh</button>
+  </h2>
+
+  <div id="missing-alert" style="display: none;" class="error-card">
+    <div class="error-title">Missing Fonts Detected</div>
+    <div class="error-msg">Some text layers may not be editable until you install these fonts.</div>
+  </div>
+
+  <div id="general-error" style="display: none;" class="error-card">
+    <div class="error-title">Scan Failed</div>
+    <div id="error-text" class="error-msg"></div>
+  </div>
+
+  <div id="font-container">
+    <div class="empty-state">Scanning document...</div>
+  </div>
+
+  <script>
+    const container = document.getElementById('font-container');
+    const missingAlert = document.getElementById('missing-alert');
+    const generalError = document.getElementById('general-error');
+    const errorText = document.getElementById('error-text');
+    const refreshBtn = document.getElementById('refresh');
+
+    refreshBtn.onclick = () => {
+      startScan();
+    };
+
+    function startScan() {
+      container.innerHTML = '<div class="empty-state">Scanning document...</div>';
+      missingAlert.style.display = 'none';
+      generalError.style.display = 'none';
+      refreshBtn.disabled = true;
+      parent.postMessage({ pluginMessage: { type: 'scan-fonts' } }, '*');
+    }
+
+    window.onmessage = (event) => {
+      const message = event.data.pluginMessage;
+      if (message.type === 'fonts-detected') {
+        refreshBtn.disabled = false;
+        renderFonts(message.fonts);
+      } else if (message.type === 'error') {
+        refreshBtn.disabled = false;
+        container.innerHTML = '';
+        generalError.style.display = 'block';
+        errorText.innerText = message.message;
+      } else if (message.type === 'scan-started') {
+        refreshBtn.disabled = true;
+      }
+    };
+
+    function renderFonts(fonts) {
+      if (fonts.length === 0) {
+        container.innerHTML = '<div class="empty-state">No text layers found in this document.</div>';
+        return;
+      }
+
+      // Sort fonts: missing first, then by family name
+      fonts.sort((a, b) => {
+        if (a.isMissing !== b.isMissing) {
+          return a.isMissing ? -1 : 1;
+        }
+        return a.family.localeCompare(b.family);
+      });
+
+      let hasMissing = false;
+      const html = fonts.map(font => {
+        if (font.isMissing) hasMissing = true;
+        return `
+          <div class="font-item">
+            <div class="font-info">
+              <div class="font-family">${font.family}</div>
+              <div class="font-style">${font.style} (${font.count} instances)</div>
+            </div>
+            <div class="font-status ${font.isMissing ? 'status-missing' : 'status-ok'}">
+              ${font.isMissing ? 'Missing' : 'Available'}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      container.innerHTML = `<div class="font-list">${html}</div>`;
+      missingAlert.style.display = hasMissing ? 'block' : 'none';
+    }
+  </script>
+</body>
+</html>

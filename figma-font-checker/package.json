@@ -1,0 +1,20 @@
+{
+  "name": "figma-font-checker",
+  "version": "1.0.0",
+  "description": "Figma plugin to find used and missing fonts",
+  "main": "dist/code.js",
+  "scripts": {
+    "build": "esbuild code.ts --bundle --outfile=dist/code.js && shx cp ui.html dist/ui.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@figma/plugin-typings": "^1.126.0",
+    "esbuild": "^0.24.0",
+    "shx": "^0.3.4",
+    "typescript": "^5.0.0"
+  }
+}

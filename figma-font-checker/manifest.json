@@ -1,0 +1,10 @@
+{
+  "name": "Font Finder & Missing Font Checker",
+  "id": "figma-font-checker",
+  "api": "1.0.0",
+  "main": "dist/code.js",
+  "ui": "dist/ui.html",
+  "capabilities": [],
+  "enableProposedApi": false,
+  "editorType": ["figma"]
+}

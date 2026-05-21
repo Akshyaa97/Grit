@@ -28,6 +28,10 @@
     .refresh-btn:hover {
       background-color: #f5f5f5;
     }
+    .refresh-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
     .font-list {
       list-style: none;
       padding: 0;
@@ -102,6 +106,11 @@
     <div class="error-msg">Some text layers may not be editable until you install these fonts.</div>
   </div>
 
+  <div id="general-error" style="display: none;" class="error-card">
+    <div class="error-title">Scan Failed</div>
+    <div id="error-text" class="error-msg"></div>
+  </div>
+
   <div id="font-container">
     <div class="empty-state">Scanning document...</div>
   </div>
@@ -109,18 +118,34 @@
   <script>
     const container = document.getElementById('font-container');
     const missingAlert = document.getElementById('missing-alert');
+    const generalError = document.getElementById('general-error');
+    const errorText = document.getElementById('error-text');
     const refreshBtn = document.getElementById('refresh');
 
     refreshBtn.onclick = () => {
+      startScan();
+    };
+
+    function startScan() {
       container.innerHTML = '<div class="empty-state">Scanning document...</div>';
       missingAlert.style.display = 'none';
+      generalError.style.display = 'none';
+      refreshBtn.disabled = true;
       parent.postMessage({ pluginMessage: { type: 'scan-fonts' } }, '*');
-    };
+    }
 
     window.onmessage = (event) => {
       const message = event.data.pluginMessage;
       if (message.type === 'fonts-detected') {
+        refreshBtn.disabled = false;
         renderFonts(message.fonts);
+      } else if (message.type === 'error') {
+        refreshBtn.disabled = false;
+        container.innerHTML = '';
+        generalError.style.display = 'block';
+        errorText.innerText = message.message;
+      } else if (message.type === 'scan-started') {
+        refreshBtn.disabled = true;
       }
     };
 
